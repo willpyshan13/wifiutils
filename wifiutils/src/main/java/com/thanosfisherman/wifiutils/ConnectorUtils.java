@@ -53,7 +53,8 @@ public final class ConnectorUtils {
     private static final int MAX_PRIORITY = 99999;
 
     public static boolean isAlreadyConnected(@Nullable WifiManager wifiManager, @Nullable String bssid) {
-        if (bssid != null && wifiManager != null) {
+        wifiLog("ConnectorUtils connected to: bssid=" + bssid + "  BSSID: " + wifiManager.getConnectionInfo().getBSSID());
+        if (bssid != null) {
             if (wifiManager.getConnectionInfo() != null && wifiManager.getConnectionInfo().getBSSID() != null &&
                     wifiManager.getConnectionInfo().getIpAddress() != 0 &&
                     Objects.equals(bssid, wifiManager.getConnectionInfo().getBSSID())) {

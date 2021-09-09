@@ -76,7 +76,9 @@ public final class WifiConnectionReceiver extends BroadcastReceiver {
                 switch (state) {
                     case COMPLETED:
                     case FOUR_WAY_HANDSHAKE:
-                        if (mScanResult == null && isAlreadyConnected2(mWifiManager, ssid)) {
+                        boolean isConnectWithResult = mScanResult!=null&&isAlreadyConnected2(mWifiManager,mScanResult.SSID);
+                        wifiLog("state="+state+" mScanResult "+mScanResult+"  isConnectWithResult="+isConnectWithResult);
+                        if (isConnectWithResult || isAlreadyConnected2(mWifiManager, ssid)) {
                             mWifiConnectionCallback.successfulConnect();
                         } else if (isAlreadyConnected(mWifiManager, of(mScanResult).next(scanResult -> scanResult.BSSID).get())) {
                             mWifiConnectionCallback.successfulConnect();
@@ -110,7 +112,7 @@ public final class WifiConnectionReceiver extends BroadcastReceiver {
     @NonNull
     public WifiConnectionReceiver connectWith(@NonNull ScanResult result, @NonNull String password, @NonNull ConnectivityManager connectivityManager) {
         mScanResult = result;
-
+        this.ssid = mScanResult.SSID;
         return this;
     }
 
