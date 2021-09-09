@@ -60,12 +60,10 @@ artifacts {
     archives(sourcesJar)
 }
 
-// https://developer.android.com/studio/build/maven-publish-plugin
 afterEvaluate {
     publishing {
         repositories {
             maven {
-                // https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories
                 url = uri("https://packages.aliyun.com/maven/repository/2132462-release-o7KSVF/")
                 credentials {
                     username = ""
