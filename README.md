@@ -1,6 +1,6 @@
 WifiUtils
 ---
-
+fork from https://github.com/ThanosFisherman/WifiUtils
 ### :rotating_light:Attention::rotating_light:
 
 #### *For Android versions 10 and newer:* WiFiUtils is currently using the *Network request API* (IoT API) for connecting to wifi networks which scopes the internet connectivity only to the app that requested it. There are plans to support WiFI Suggestion API in the future which overcomes this issue. For further info read the official docs [here](https://developer.android.com/guide/topics/connectivity/wifi-infrastructure) and take a look at the discussion thread [here](https://github.com/ThanosFisherman/WifiUtils/issues/47) ####
