@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
@@ -41,11 +42,15 @@ public final class WifiConnectionReceiver extends BroadcastReceiver {
         wifiLog("Connection Broadcast action: " + action);
         if (isAndroidQOrLater()) {
             if (Objects.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION, action)) {
+                boolean isConnectWithResult = mScanResult != null && isAlreadyConnected2(mWifiManager,mScanResult.SSID);
+
+                boolean isConnectWithSsid = mScanResult == null && isAlreadyConnected2(mWifiManager, ssid);
                 final SupplicantState state = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);
+                wifiLog("state="+state+" mScanResult "+mScanResult+"  isConnectWithResult="+isConnectWithResult);
                 final int suppl_error = intent.getIntExtra(WifiManager.EXTRA_SUPPLICANT_ERROR, -1);
                 wifiLog("Connection Broadcast state: " + state);
                 wifiLog("suppl_error: " + suppl_error);
-                if (mScanResult == null && isAlreadyConnected2(mWifiManager, ssid)) {
+                if (isConnectWithResult || isConnectWithSsid) {
                     mWifiConnectionCallback.successfulConnect();
                 }
                 if (state == SupplicantState.DISCONNECTED && suppl_error == WifiManager.ERROR_AUTHENTICATING) {
@@ -59,8 +64,18 @@ public final class WifiConnectionReceiver extends BroadcastReceiver {
                     if the connection to the hotspot is active, and not if the hotspot has internet.
                  */
                 if (isAlreadyConnected(mWifiManager, of(mScanResult).next(scanResult -> scanResult.BSSID).get())) {
-
                     mWifiConnectionCallback.successfulConnect();
+                }
+            }else if(Objects.equals(ConnectivityManager.CONNECTIVITY_ACTION, action)){
+                wifiLog("Connection CONNECTIVITY_ACTION state: ");
+                //获取联网状态的NetworkInfo对象
+                NetworkInfo info = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+                if (info != null) {
+                    wifiLog("Connection CONNECTIVITY_ACTION start check: ");
+                    //如果当前的网络连接成功并且网络连接可用
+                    if (NetworkInfo.State.CONNECTED == info.getState() && info.isAvailable()) {
+                        mWifiConnectionCallback.successfulConnect();
+                    }
                 }
             } else if (Objects.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION, action)) {
                 final SupplicantState state = intent.getParcelableExtra(WifiManager.EXTRA_NEW_STATE);

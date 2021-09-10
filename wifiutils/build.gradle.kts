@@ -77,7 +77,7 @@ afterEvaluate {
                 from(components["release"])
                 artifactId = "wifiutils"
                 groupId = "com.xmotion.lib"
-                version = "1.0.2"
+                version = "1.0.3"
                 artifact(sourcesJar)
             }
         }

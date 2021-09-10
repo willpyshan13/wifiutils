@@ -160,7 +160,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
                     registerReceiver(mContext, (mWifiConnectionReceiver).connectWith(mSingleScanResult, mPassword, mConnectivityManager),
                             new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
                     registerReceiver(mContext, mWifiConnectionReceiver,
-                            new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+                            getConnectionFilter());
                     mTimeoutHandler.startTimeout(mSingleScanResult, mTimeoutMillis);
                 } else {
                     mWifiConnectionCallback.errorConnect(ConnectionErrorCode.COULD_NOT_CONNECT);
@@ -170,7 +170,7 @@ public final class WifiUtils implements WifiConnectorBuilder,
                     registerReceiver(mContext, (mWifiConnectionReceiver).connectWith(mSsid, mPassword, mConnectivityManager),
                             new IntentFilter(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION));
                     registerReceiver(mContext, mWifiConnectionReceiver,
-                            new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+                            getConnectionFilter());
                     mTimeoutHandler.startTimeout(mSingleScanResult, mTimeoutMillis);
                 } else {
                     mWifiConnectionCallback.errorConnect(ConnectionErrorCode.COULD_NOT_CONNECT);
@@ -178,6 +178,13 @@ public final class WifiUtils implements WifiConnectorBuilder,
             }
         }
     };
+
+    private IntentFilter getConnectionFilter(){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        return filter;
+    }
 
     @NonNull
     private final WifiConnectionCallback mWifiConnectionCallback = new WifiConnectionCallback() {
