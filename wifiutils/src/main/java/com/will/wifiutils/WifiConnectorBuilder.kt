@@ -19,8 +19,9 @@ interface WifiConnectorBuilder {
         fun scanWifi(scanResultsListener: ScanResultsListener?): WifiConnectorBuilder
         fun connectWith(ssid: String): WifiSuccessListener
         fun connectWith(ssid: String, password: String): WifiSuccessListener
+        fun connectWith(ssid: String, password: String,hide:Boolean = true): WifiSuccessListener
         fun connectWith(ssid: String, bssid: String, password: String): WifiSuccessListener
-        fun connectWith(ssid: String, password: String, type: TypeEnum): WifiSuccessListener?
+        fun connectWith(ssid: String, password: String, type: TypeEnum): WifiSuccessListener
         fun patternMatch(): WifiUtilsBuilder
 
         @Deprecated("")

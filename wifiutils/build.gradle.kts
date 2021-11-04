@@ -67,7 +67,7 @@ afterEvaluate {
                 url = uri("https://packages.aliyun.com/maven/repository/2132462-release-o7KSVF/")
                 credentials {
                     username = "6127ae307cbfb3c62b93e6a8"
-                    password = ""
+                    password = "YowtVmoeCxRa"
                 }
             }
         }

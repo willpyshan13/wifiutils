@@ -113,17 +113,17 @@ class MainActivity : AppCompatActivity() {
             .connectWith(
                 textview_ssid.text.toString(),
                 textview_password.text.toString(),
-                TypeEnum.EAP
-            )
-            ?.onConnectionResult(object : ConnectionSuccessListener {
+                TypeEnum.PSK
+            ).onConnectionResult(object : ConnectionSuccessListener {
                 override fun success() {
                     Toast.makeText(context, "SUCCESS!", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun failed(errorCode: ConnectionErrorCode) {
+                    connectWithWpa(context)
                     Toast.makeText(context, "EPIC FAIL!$errorCode", Toast.LENGTH_SHORT).show()
                 }
-            })?.start()
+            }).start()
     }
 
     private fun disconnect(context: Context) {

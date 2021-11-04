@@ -336,6 +336,16 @@ class WifiUtils private constructor(private val mContext: Context) : WifiConnect
         return this
     }
 
+    override fun connectWith(ssid: String, password: String, hide: Boolean): WifiSuccessListener {
+        mSsid = ssid
+        mPassword = password
+        if (hide) {
+            this.type = TypeEnum.PSK.name
+        }
+        return this
+    }
+
+
     override fun connectWith(ssid: String, password: String, type: TypeEnum): WifiSuccessListener {
         mSsid = ssid
         mPassword = password
