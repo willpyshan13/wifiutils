@@ -2,7 +2,9 @@ package com.will.wifiutils.sample
 
 import android.Manifest
 import android.content.Context
+import android.net.wifi.ScanResult
 import android.os.Bundle
+import android.text.method.KeyListener
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -19,6 +21,7 @@ import com.will.wifiutils.wifiDisconnect.DisconnectionErrorCode
 import com.will.wifiutils.wifiDisconnect.DisconnectionSuccessListener
 import com.will.wifiutils.wifiRemove.RemoveErrorCode
 import com.will.wifiutils.wifiRemove.RemoveSuccessListener
+import com.will.wifiutils.wifiScan.ScanResultsListener
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.net.SocketAddress
@@ -45,9 +48,15 @@ class MainActivity : AppCompatActivity() {
         })
         WifiUtils.enableLog(true)
         findViewById<Button>(R.id.button_connect).setOnClickListener {
-            connectWithWpa(
-                applicationContext
-            )
+//            connectWithWpa(
+//                applicationContext
+//            )
+            Log.d("withContext","scan start")
+            WifiUtils.withContext(this).scanWifi(object :ScanResultsListener{
+                override fun onScanResults(scanResults: List<ScanResult?>) {
+                    Log.d("withContext","scan start result size=${scanResults.size}")
+                }
+            }).start()
         }
         findViewById<Button>(R.id.button_prefix).setOnClickListener {
             connectWithPrefix(
@@ -94,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun connectWithWpa(context: Context) {
         WifiUtils.withContext(context)
-            .connectWith(textview_ssid.text.toString(), textview_password.text.toString())
+            .connectWith(textview_ssid.text.toString(), textview_password.text.toString(),true)
             .setTimeout(15000)
             .onConnectionResult(object : ConnectionSuccessListener {
                 override fun success() {
@@ -114,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                 textview_ssid.text.toString(),
                 textview_password.text.toString(),
                 TypeEnum.PSK
-            ).onConnectionResult(object : ConnectionSuccessListener {
+            )?.onConnectionResult(object : ConnectionSuccessListener {
                 override fun success() {
                     Toast.makeText(context, "SUCCESS!", Toast.LENGTH_SHORT).show()
                 }
@@ -123,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                     connectWithWpa(context)
                     Toast.makeText(context, "EPIC FAIL!$errorCode", Toast.LENGTH_SHORT).show()
                 }
-            }).start()
+            })?.start()
     }
 
     private fun disconnect(context: Context) {

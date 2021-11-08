@@ -163,7 +163,7 @@ class WifiUtils private constructor(private val mContext: Context) : WifiConnect
                 } else {
                     mWifiConnectionCallback.errorConnect(ConnectionErrorCode.COULD_NOT_CONNECT)
                 }
-            } else {
+            } else if(mSsid != null && mPassword != null){
                 if (connectToWifiHidden(
                         mContext,
                         mWifiManager,
