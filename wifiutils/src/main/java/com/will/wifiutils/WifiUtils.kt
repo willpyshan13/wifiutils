@@ -342,6 +342,9 @@ class WifiUtils private constructor(private val mContext: Context) : WifiConnect
         if (hide) {
             this.type = TypeEnum.PSK.name
         }
+        if ( password.isEmpty()){
+            this.type = TypeEnum.OPEN.name
+        }
         return this
     }
 

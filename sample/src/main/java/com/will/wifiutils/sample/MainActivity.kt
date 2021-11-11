@@ -48,15 +48,15 @@ class MainActivity : AppCompatActivity() {
         })
         WifiUtils.enableLog(true)
         findViewById<Button>(R.id.button_connect).setOnClickListener {
-//            connectWithWpa(
-//                applicationContext
-//            )
-            Log.d("withContext","scan start")
-            WifiUtils.withContext(this).scanWifi(object :ScanResultsListener{
-                override fun onScanResults(scanResults: List<ScanResult?>) {
-                    Log.d("withContext","scan start result size=${scanResults.size}")
-                }
-            }).start()
+            connectWithWpa(
+                applicationContext
+            )
+//            Log.d("withContext","scan start")
+//            WifiUtils.withContext(this).scanWifi(object :ScanResultsListener{
+//                override fun onScanResults(scanResults: List<ScanResult?>) {
+//                    Log.d("withContext","scan start result size=${scanResults.size}")
+//                }
+//            }).start()
         }
         findViewById<Button>(R.id.button_prefix).setOnClickListener {
             connectWithPrefix(
