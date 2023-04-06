@@ -2,7 +2,7 @@ object Artifact {
 
     val ARTIFACT_NAME = "wifiutils"
     val ARTIFACT_GROUP = "com.xmotion.lib"
-    val VERSION_NAME = "1.0.8"
+    val VERSION_NAME = "1.0.8.1"
     val VERSION_CODE = 22
     val POM_URL = "https://github.com/willpyshan13/WifiUtils"
     val POM_SCM_URL = "https://github.com/willpyshan13/WifiUtils"

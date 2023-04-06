@@ -60,10 +60,10 @@ class WifiConnectionReceiver(
                 val info =
                     intent.getParcelableExtra<NetworkInfo>(ConnectivityManager.EXTRA_NETWORK_INFO)
                 if (info != null) {
-                    WifiUtils.wifiLog("Connection CONNECTIVITY_ACTION start check: ")
+                    WifiUtils.wifiLog("Connection CONNECTIVITY_ACTION start check: info=${info}")
                     //如果当前的网络连接成功并且网络连接可用
                     if (NetworkInfo.State.CONNECTED == info.state && info.isAvailable) {
-                        mWifiConnectionCallback.successfulConnect()
+//                        mWifiConnectionCallback.successfulConnect()
                     }
                 }
             } else if (WifiManager.SUPPLICANT_STATE_CHANGED_ACTION == action) {
